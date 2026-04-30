@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz Día de las Madres, Lupita 💐</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:     #C05878;
+      --blush:    #F0B8CC;
+      --cream:    #FFF6EE;
+      --gold:     #D4925A;
+      --sage:     #7FA882;
+      --deep:     #6B2D4A;
+      --text:     #3D1A2C;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: linear-gradient(160deg, #FFF0E8 0%, #FCE4EE 50%, #EEF4E8 100%);
+      font-family: 'Nunito', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ── Canvas de pétalos ── */
+    #petals-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Contenedor principal ── */
+    .card {
+      position: relative;
+      z-index: 10;
+      max-width: 560px;
+      width: 92%;
+      background: rgba(255,246,238,0.82);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(208,120,155,0.25);
+      border-radius: 32px;
+      padding: 52px 44px 48px;
+      text-align: center;
+      box-shadow:
+        0 4px 60px rgba(180, 80, 110, 0.12),
+        inset 0 1px 0 rgba(255,255,255,0.7);
+      opacity: 0;
+      transform: translateY(24px) scale(0.97);
+      animation: cardIn 1.1s cubic-bezier(.22,.68,0,1.2) 0.5s forwards;
+    }
+
+    @keyframes cardIn {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── Ornamento superior ── */
+    .ornament {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      display: block;
+      animation: sway 4s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+    @keyframes sway {
+      0%,100% { transform: rotate(-4deg); }
+      50%      { transform: rotate(4deg);  }
+    }
+
+    /* ── Fecha ── */
+    .date-tag {
+      display: inline-block;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rose);
+      background: rgba(192,88,120,0.1);
+      border-radius: 20px;
+      padding: 4px 16px;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.2s forwards;
+    }
+
+    /* ── Nombre ── */
+    .name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 10vw, 4.6rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--deep);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 1.6s forwards;
+    }
+
+    .name span {
+      background: linear-gradient(135deg, var(--rose) 20%, var(--gold) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Separador ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px auto;
+      width: 70%;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 2s forwards;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(192,88,120,0.3), transparent);
+    }
+    .divider-heart {
+      font-size: 0.9rem;
+      animation: heartbeat 1.4s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%      { transform: scale(1.3); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.2); }
+    }
+
+    /* ── Mensaje ── */
+    .message {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 3.5vw, 1.55rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.75;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 2.3s forwards;
+    }
+
+    .message em {
+      font-style: normal;
+      color: var(--rose);
+      font-weight: 600;
+    }
+
+    /* ── Firma ── */
+    .signature-wrap {
+      margin-top: 30px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 2.9s forwards;
+    }
+
+    .signature-label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 6px;
+    }
+
+    .signature {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--deep);
+    }
+
+    /* ── Corazones flotantes pequeños ── */
+    .floating-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .fh {
+      position: absolute;
+      bottom: -40px;
+      font-size: 1.1rem;
+      opacity: 0;
+      animation: floatHeart linear infinite;
+    }
+
+    @keyframes floatHeart {
+      0%   { opacity: 0;   transform: translateY(0) rotate(0deg) scale(0.8); }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.4; }
+      100% { opacity: 0;   transform: translateY(-105vh) rotate(25deg) scale(1.1); }
+    }
+
+    /* ── Utilidad ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 420px) {
+      .card { padding: 36px 24px 36px; border-radius: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="petals-canvas"></canvas>
+
+  <div class="floating-hearts" id="hearts-container"></div>
+
+  <article class="card" role="main" aria-label="Tarjeta del Día de las Madres para Lupita">
+
+    <span class="ornament" aria-hidden="true">🌸</span>
+
+    <div class="date-tag">Día de las Madres · 2025</div>
+
+    <h1 class="name"><span>Lupita</span></h1>
+
+    <div class="divider">
+      <span class="divider-heart" aria-hidden="true">♥</span>
+    </div>
+
+    <p class="message">
+      Eres la <em>fortaleza</em>, la <em>luz</em><br/>
+      y guía de nuestra familia.<br/>
+      <br/>
+      ¡Te amamos!
+    </p>
+
+    <div class="signature-wrap">
+      <p class="signature-label">Con todo nuestro amor</p>
+      <p class="signature">Javier, Matías &amp; Liliana</p>
+    </div>
+
+  </article>
+
+  <script>
+    /* ── Pétalos en canvas ── */
+    (function() {
+      const canvas = document.getElementById('petals-canvas');
+      const ctx = canvas.getContext('2d');
+      const W = () => canvas.width  = window.innerWidth;
+      const H = () => canvas.height = window.innerHeight;
+      W(); H();
+      window.addEventListener('resize', () => { W(); H(); });
+
+      const PETAL_COLORS = ['#E8A0B4','#F5C8D5','#DCAEC9','#C8849E','#E8C4A0','#F5DEC8','#B8D4A8'];
+      const COUNT = 38;
+      const petals = [];
+
+      function rand(a, b) { return a + Math.random() * (b - a); }
+
+      function makePetal() {
+        return {
+          x:    rand(0, canvas.width),
+          y:    rand(-120, -10),
+          r:    rand(5, 13),
+          rx:   rand(3, 7),
+          rot:  rand(0, Math.PI * 2),
+          vx:   rand(-0.6, 0.6),
+          vy:   rand(0.6, 1.6),
+          vr:   rand(-0.015, 0.015),
+          color: PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)],
+          alpha: rand(0.55, 0.95),
+        };
+      }
+
+      for (let i = 0; i < COUNT; i++) {
+        const p = makePetal();
+        p.y = rand(-canvas.height, canvas.height);
+        petals.push(p);
+      }
+
+      function drawPetal(p) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = p.alpha;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.r, p.rx, 0, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function tick() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const p of petals) {
+          p.x   += p.vx;
+          p.y   += p.vy;
+          p.rot += p.vr;
+          if (p.y > canvas.height + 20) { Object.assign(p, makePetal()); }
+          drawPetal(p);
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
+
+    /* ── Corazones flotantes ── */
+    (function() {
+      const container = document.getElementById('hearts-container');
+      const HEARTS = ['♥','♡','💕','🌷'];
+      function spawnHeart() {
+        const el = document.createElement('div');
+        el.className = 'fh';
+        el.textContent = HEARTS[Math.floor(Math.random() * HEARTS.length)];
+        const dur  = 8 + Math.random() * 8;
+        const left = 5 + Math.random() * 90;
+        const delay = Math.random() * 4;
+        el.style.cssText = `left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;font-size:${0.7 + Math.random()}rem;`;
+        container.appendChild(el);
+        setTimeout(() => el.remove(), (dur + delay + 0.5) * 1000);
+      }
+      setInterval(spawnHeart, 1100);
+      for (let i = 0; i < 5; i++) setTimeout(spawnHeart, i * 400);
+    })();
+  </script>
+</body>
+</html>
