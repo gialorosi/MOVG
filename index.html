@@ -213,14 +213,23 @@
     }
 
     /* ── Fase 1: intro ── */
-    .stage-intro { color: var(--deep); }
+    .stage-intro {
+      color: var(--deep);
+      background: rgba(255,246,238,0.94);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(208,120,155,0.3);
+      border-radius: 24px;
+      padding: 38px 36px 32px;
+      box-shadow: 0 8px 40px rgba(180,80,110,0.18);
+      max-width: 460px;
+    }
     .stage-intro h2 {
-      font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
-      font-size: clamp(1.4rem, 4.5vw, 2.1rem); margin-bottom: 10px;
+      font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400;
+      font-size: clamp(1.4rem, 4.5vw, 2.1rem); margin-bottom: 14px;
       background: linear-gradient(135deg, var(--rose) 20%, var(--gold) 80%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .stage-intro p { font-size: 0.85rem; color: var(--deep); opacity: 0.65; line-height: 1.7; font-family: 'Nunito', sans-serif; }
+    .stage-intro p { font-size: 0.92rem; color: var(--text); opacity: 0.85; line-height: 1.7; font-family: 'Nunito', sans-serif; }
 
     /* Botón de inicio en intro */
     .btn-start {
@@ -253,7 +262,40 @@
     }
     .scroll:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(180,80,110,0.18); border-color: rgba(208,120,155,0.5); }
     .scroll.opened { border-color: rgba(212,146,90,0.5); background: rgba(255,246,238,0.95); cursor: default; transform: none; }
-    .scroll-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+    .scroll-icon { font-size: 2rem; margin-bottom: 10px; display: inline-block; }
+
+    /* Animaciones temáticas para los iconos de los actos */
+    .icon-leaf {
+      animation: leafSway 3.2s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+    @keyframes leafSway {
+      0%, 100% { transform: rotate(-9deg) translateY(0); }
+      50%      { transform: rotate(9deg) translateY(-3px); }
+    }
+
+    .icon-candle {
+      animation: candleFlicker 1.8s ease-in-out infinite;
+      filter: drop-shadow(0 0 8px rgba(255,200,80,0.55));
+    }
+    @keyframes candleFlicker {
+      0%, 100% { transform: scale(1)    translateY(0);    filter: drop-shadow(0 0 6px  rgba(255,200,80,0.5));  }
+      20%      { transform: scale(1.06) translateY(-1px); filter: drop-shadow(0 0 12px rgba(255,225,110,0.85)); }
+      40%      { transform: scale(0.97) translateY(0.5px);filter: drop-shadow(0 0 5px  rgba(255,180,60,0.4));  }
+      60%      { transform: scale(1.04) translateY(-0.5px);filter: drop-shadow(0 0 10px rgba(255,215,90,0.7));  }
+      80%      { transform: scale(0.99) translateY(0);    filter: drop-shadow(0 0 7px  rgba(255,200,75,0.55)); }
+    }
+
+    .icon-star {
+      animation: starTwinkle 2.6s ease-in-out infinite;
+      filter: drop-shadow(0 0 6px rgba(255,215,0,0.6));
+    }
+    @keyframes starTwinkle {
+      0%, 100% { transform: scale(1)    rotate(0deg);   filter: drop-shadow(0 0 4px  rgba(255,215,0,0.4)); }
+      25%      { transform: scale(1.2)  rotate(15deg);  filter: drop-shadow(0 0 14px rgba(255,225,80,0.9)); }
+      50%      { transform: scale(0.92) rotate(0deg);   filter: drop-shadow(0 0 6px  rgba(255,200,0,0.5)); }
+      75%      { transform: scale(1.15) rotate(-15deg); filter: drop-shadow(0 0 12px rgba(255,230,100,0.8)); }
+    }
     .scroll-act  { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage); margin-bottom: 4px; font-family: 'Nunito', sans-serif; }
     .scroll-title {
       font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05rem; line-height: 1.3;
@@ -304,8 +346,31 @@
       50%      { box-shadow: 0 6px 28px rgba(192,88,120,0.35), 0 0 0 12px rgba(212,146,90,0); }
     }
 
+    /* ── Botón "Siguiente" entre actos y trivia ── */
+    .btn-next {
+      margin-top: 8px; display: none;
+      background: rgba(255,246,238,0.92);
+      backdrop-filter: blur(6px);
+      border: 1.5px solid var(--rose);
+      color: var(--deep);
+      border-radius: 50px; padding: 12px 30px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.05rem; cursor: pointer;
+      letter-spacing: 0.04em;
+      box-shadow: 0 4px 20px rgba(192,88,120,0.18);
+      transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+      animation: nextPulse 2.5s ease-in-out infinite;
+    }
+    .btn-next.show { display: inline-block; animation: nextPulse 2.5s ease-in-out infinite, fadeUp 0.7s ease forwards; }
+    .btn-next:hover { transform: scale(1.05); background: white; box-shadow: 0 6px 28px rgba(192,88,120,0.3); }
+    .btn-next:active { transform: scale(0.97); }
+    @keyframes nextPulse {
+      0%,100% { box-shadow: 0 4px 20px rgba(192,88,120,0.18), 0 0 0 0 rgba(192,88,120,0.3); }
+      50%      { box-shadow: 0 4px 20px rgba(192,88,120,0.18), 0 0 0 8px rgba(192,88,120,0); }
+    }
+
     /* ══════════════════════════════════════
-       MINI-JUEGO TRIVIA con bailarina pixel
+       MINI-JUEGO TRIVIA con actriz isabelina
     ══════════════════════════════════════ */
     #phase-trivia {
       display: flex; flex-direction: column; align-items: center;
@@ -313,13 +378,14 @@
     }
 
     .dancer-svg {
-      width: 110px; height: auto;
-      animation: dancerSway 2.4s ease-in-out infinite alternate;
+      width: 120px; height: auto;
+      animation: actressSway 3.4s ease-in-out infinite alternate;
       filter: drop-shadow(0 4px 12px rgba(192,88,120,0.3));
     }
-    @keyframes dancerSway {
-      0%   { transform: translateY(0) rotate(-3deg); }
-      100% { transform: translateY(-6px) rotate(3deg); }
+    @keyframes actressSway {
+      0%   { transform: translateY(0) rotate(-2deg); }
+      50%  { transform: translateY(-4px) rotate(0deg); }
+      100% { transform: translateY(0) rotate(2deg); }
     }
 
     .hearts-row {
@@ -543,7 +609,7 @@
 
         <div class="scroll" id="s1" onclick="openScroll(1)">
           <div class="scroll-pulse"></div>
-          <span class="scroll-icon">🌿</span>
+          <span class="scroll-icon icon-leaf">🌿</span>
           <div class="scroll-act">Acto I</div>
           <div class="scroll-title">La Fortaleza</div>
           <div class="scroll-text">
@@ -555,7 +621,7 @@
 
         <div class="scroll hidden-act" id="s2" onclick="openScroll(2)">
           <div class="scroll-pulse"></div>
-          <span class="scroll-icon">🕯️</span>
+          <span class="scroll-icon icon-candle">🕯️</span>
           <div class="scroll-act">Acto II</div>
           <div class="scroll-title">La Luz</div>
           <div class="scroll-text">
@@ -567,7 +633,7 @@
 
         <div class="scroll hidden-act" id="s3" onclick="openScroll(3)">
           <div class="scroll-pulse"></div>
-          <span class="scroll-icon">🌟</span>
+          <span class="scroll-icon icon-star">🌟</span>
           <div class="scroll-act">Acto III</div>
           <div class="scroll-title">La Guía</div>
           <div class="scroll-text">
@@ -579,60 +645,103 @@
 
       </div>
       <p id="hint-open" class="hint-text hidden-phase">Toca el pergamino para descubrir el acto ✨</p>
+      <button id="btn-next-trivia" class="btn-next" onclick="startTrivia()">
+        💕 ¿Lista para el reto?
+      </button>
 
-      <!-- Fase 2.5: Mini-juego trivia con bailarina pixel art -->
+      <!-- Fase 2.5: Mini-juego trivia con actriz isabelina pixel art -->
       <div id="phase-trivia" class="hidden-phase">
 
-        <!-- Bailarina pixel art estilo SNES -->
-        <svg class="dancer-svg" viewBox="0 0 64 86" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-          <!-- Bun on top -->
-          <rect x="28" y="0" width="8" height="2" fill="#3D1A2C"/>
-          <rect x="26" y="2" width="12" height="2" fill="#3D1A2C"/>
-          <!-- Hair -->
-          <rect x="22" y="4" width="20" height="2" fill="#3D1A2C"/>
-          <rect x="20" y="6" width="24" height="2" fill="#3D1A2C"/>
-          <rect x="20" y="8" width="2" height="14" fill="#3D1A2C"/>
-          <rect x="42" y="8" width="2" height="14" fill="#3D1A2C"/>
-          <!-- Face -->
-          <rect x="22" y="8" width="20" height="14" fill="#FFE0CC"/>
-          <!-- Eyes -->
+        <!-- Actriz isabelina/shakespeariana en pixel art estilo SNES -->
+        <svg class="dancer-svg" viewBox="0 0 68 86" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+          <!-- Joyas de la corona -->
+          <rect x="28" y="0" width="2" height="2" fill="#FFD700"/>
+          <rect x="33" y="0" width="2" height="2" fill="#FFD700"/>
+          <rect x="38" y="0" width="2" height="2" fill="#FFD700"/>
+          <!-- Banda de la corona -->
+          <rect x="24" y="2" width="20" height="2" fill="#D4925A"/>
+          <!-- Cabello superior -->
+          <rect x="22" y="4" width="24" height="2" fill="#5C2818"/>
+          <rect x="20" y="6" width="28" height="3" fill="#5C2818"/>
+          <!-- Cabello laterales (cae) -->
+          <rect x="18" y="9"  width="2" height="14" fill="#5C2818"/>
+          <rect x="46" y="9"  width="2" height="14" fill="#5C2818"/>
+          <rect x="14" y="11" width="4" height="11" fill="#5C2818"/>
+          <rect x="48" y="11" width="4" height="11" fill="#5C2818"/>
+          <!-- Cara -->
+          <rect x="20" y="9"  width="26" height="14" fill="#FFE0CC"/>
+          <!-- Pestañas -->
+          <rect x="25" y="12" width="1" height="1" fill="#3D1A2C"/>
+          <rect x="40" y="12" width="1" height="1" fill="#3D1A2C"/>
+          <!-- Ojos -->
           <rect x="26" y="13" width="2" height="2" fill="#3D1A2C"/>
-          <rect x="36" y="13" width="2" height="2" fill="#3D1A2C"/>
-          <!-- Cheeks -->
-          <rect x="24" y="16" width="2" height="2" fill="#F0B8CC"/>
-          <rect x="38" y="16" width="2" height="2" fill="#F0B8CC"/>
-          <!-- Smile -->
-          <rect x="28" y="17" width="8" height="1" fill="#C05878"/>
-          <rect x="30" y="18" width="4" height="1" fill="#C05878"/>
-          <!-- Neck -->
-          <rect x="28" y="22" width="8" height="2" fill="#FFE0CC"/>
-          <!-- Leotard -->
-          <rect x="22" y="24" width="20" height="14" fill="#C05878"/>
-          <!-- Arms raised in 5th position -->
-          <rect x="14" y="22" width="6" height="3" fill="#FFE0CC"/>
-          <rect x="44" y="22" width="6" height="3" fill="#FFE0CC"/>
-          <rect x="10" y="18" width="4" height="6" fill="#FFE0CC"/>
-          <rect x="50" y="18" width="4" height="6" fill="#FFE0CC"/>
-          <rect x="12" y="14" width="4" height="6" fill="#FFE0CC"/>
-          <rect x="48" y="14" width="4" height="6" fill="#FFE0CC"/>
-          <!-- Tutu -->
-          <rect x="14" y="38" width="36" height="3" fill="#F5C8D5"/>
-          <rect x="10" y="40" width="44" height="4" fill="#F0B8CC"/>
-          <rect x="6"  y="44" width="52" height="4" fill="#F5C8D5"/>
-          <rect x="10" y="48" width="44" height="2" fill="#E89AB2"/>
-          <!-- Sparkles on tutu -->
-          <rect x="14" y="44" width="2" height="2" fill="#FFD700"/>
+          <rect x="38" y="13" width="2" height="2" fill="#3D1A2C"/>
+          <rect x="27" y="13" width="1" height="1" fill="#FFFFFF"/>
+          <rect x="39" y="13" width="1" height="1" fill="#FFFFFF"/>
+          <!-- Mejillas sonrojadas -->
+          <rect x="22" y="17" width="2" height="2" fill="#F0B8CC"/>
+          <rect x="42" y="17" width="2" height="2" fill="#F0B8CC"/>
+          <!-- Labios -->
+          <rect x="30" y="18" width="6" height="1" fill="#A03A5C"/>
+          <rect x="31" y="19" width="4" height="1" fill="#A03A5C"/>
+          <!-- Cuello -->
+          <rect x="30" y="22" width="6" height="2" fill="#FFE0CC"/>
+          <!-- Cuello rufo (volado blanco isabelino) -->
+          <rect x="14" y="24" width="38" height="2" fill="#FFFFFF"/>
+          <rect x="12" y="26" width="42" height="3" fill="#F8F8F8"/>
+          <rect x="14" y="29" width="38" height="2" fill="#FFFFFF"/>
+          <!-- Corpiño -->
+          <rect x="20" y="31" width="26" height="14" fill="#8B2D4A"/>
+          <rect x="20" y="31" width="2"  height="14" fill="#6B1F38"/>
+          <rect x="44" y="31" width="2"  height="14" fill="#6B1F38"/>
+          <!-- Botones dorados del corpiño -->
+          <rect x="32" y="34" width="2" height="2" fill="#FFD700"/>
+          <rect x="32" y="38" width="2" height="2" fill="#FFD700"/>
           <rect x="32" y="42" width="2" height="2" fill="#FFD700"/>
-          <rect x="48" y="44" width="2" height="2" fill="#FFD700"/>
-          <!-- Legs -->
-          <rect x="26" y="50" width="4" height="22" fill="#FFE0CC"/>
-          <rect x="34" y="50" width="4" height="22" fill="#FFE0CC"/>
-          <!-- Pointe shoes -->
-          <rect x="22" y="72" width="10" height="6" fill="#C05878"/>
-          <rect x="32" y="72" width="10" height="6" fill="#C05878"/>
-          <!-- Ribbons -->
-          <rect x="26" y="68" width="2" height="3" fill="#E89AB2"/>
-          <rect x="34" y="68" width="2" height="3" fill="#E89AB2"/>
+          <!-- Hombros abullonados (renacentistas) -->
+          <rect x="12" y="29" width="10" height="8" fill="#A03A5C"/>
+          <rect x="44" y="29" width="10" height="8" fill="#A03A5C"/>
+          <rect x="10" y="31" width="4"  height="6" fill="#A03A5C"/>
+          <rect x="54" y="31" width="4"  height="6" fill="#A03A5C"/>
+          <!-- Borde dorado en hombros -->
+          <rect x="14" y="29" width="6" height="1" fill="#FFD700"/>
+          <rect x="46" y="29" width="6" height="1" fill="#FFD700"/>
+          <!-- Mangas inferiores ajustadas -->
+          <rect x="14" y="37" width="6" height="6" fill="#8B2D4A"/>
+          <rect x="46" y="37" width="6" height="6" fill="#8B2D4A"/>
+          <!-- Encajes en los puños -->
+          <rect x="13" y="43" width="8" height="2" fill="#FFFFFF"/>
+          <rect x="45" y="43" width="8" height="2" fill="#FFFFFF"/>
+          <!-- Manos -->
+          <rect x="15" y="45" width="4" height="3" fill="#FFE0CC"/>
+          <rect x="47" y="45" width="4" height="3" fill="#FFE0CC"/>
+          <!-- Rosa en mano izquierda -->
+          <rect x="11" y="42" width="6" height="4" fill="#C05878"/>
+          <rect x="12" y="40" width="4" height="2" fill="#E89AB2"/>
+          <rect x="13" y="46" width="1" height="3" fill="#7FA882"/>
+          <!-- Máscara de teatro dorada en mano derecha -->
+          <rect x="49" y="40" width="6" height="6" fill="#FFD700"/>
+          <rect x="50" y="42" width="1" height="1" fill="#3D1A2C"/>
+          <rect x="53" y="42" width="1" height="1" fill="#3D1A2C"/>
+          <rect x="51" y="44" width="3" height="1" fill="#A03A5C"/>
+          <!-- Falda (amplia, en capas) -->
+          <rect x="18" y="45" width="30" height="4" fill="#8B2D4A"/>
+          <rect x="14" y="49" width="38" height="5" fill="#A03A5C"/>
+          <rect x="10" y="54" width="46" height="6" fill="#8B2D4A"/>
+          <rect x="6"  y="60" width="54" height="6" fill="#A03A5C"/>
+          <rect x="4"  y="66" width="58" height="7" fill="#8B2D4A"/>
+          <!-- Adornos dorados en la falda -->
+          <rect x="32" y="51" width="4" height="2" fill="#FFD700"/>
+          <rect x="22" y="56" width="2" height="2" fill="#FFD700"/>
+          <rect x="44" y="56" width="2" height="2" fill="#FFD700"/>
+          <rect x="14" y="62" width="2" height="2" fill="#FFD700"/>
+          <rect x="52" y="62" width="2" height="2" fill="#FFD700"/>
+          <rect x="32" y="68" width="4" height="2" fill="#FFD700"/>
+          <!-- Borde inferior de la falda -->
+          <rect x="4" y="73" width="58" height="2" fill="#D4925A"/>
+          <!-- Zapatos asomándose -->
+          <rect x="28" y="75" width="5" height="4" fill="#3D1A2C"/>
+          <rect x="35" y="75" width="5" height="4" fill="#3D1A2C"/>
         </svg>
 
         <div class="hearts-row" id="hearts-row">
@@ -759,10 +868,11 @@
       }
 
       if(scrollsOpened === 3){
-        // Tras leer el último acto, transicionar a la trivia
+        // Tras leer el último acto, mostrar botón para continuar a la trivia
         setTimeout(() => {
-          startTrivia();
-        }, 6000);
+          document.getElementById('hint-open').classList.add('hidden-phase');
+          document.getElementById('btn-next-trivia').classList.add('show');
+        }, 5500);
       }
     }
 
@@ -793,6 +903,8 @@
     function startTrivia(){
       document.getElementById('phase-scrolls').classList.add('hidden-phase');
       document.getElementById('hint-open').classList.add('hidden-phase');
+      document.getElementById('btn-next-trivia').classList.remove('show');
+      document.getElementById('btn-next-trivia').style.display = 'none';
       document.getElementById('phase-trivia').classList.remove('hidden-phase');
       currentQuestion = 0;
       loadQuestion(0);
@@ -894,6 +1006,8 @@
         document.getElementById('hint-open').classList.add('hidden-phase');
         document.getElementById('btn-reveal').classList.remove('show');
         document.getElementById('btn-reveal').style.display = '';
+        document.getElementById('btn-next-trivia').classList.remove('show');
+        document.getElementById('btn-next-trivia').style.display = '';
         document.getElementById('finale').classList.remove('show');
         ['s1','s2','s3'].forEach(id=>{
           const el = document.getElementById(id);
