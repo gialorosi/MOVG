@@ -193,8 +193,8 @@
     }
     .theater-title {
       font-family: 'Cormorant Garamond', serif; font-style: italic;
-      font-size: clamp(0.9rem, 2.5vw, 1.15rem);
-      letter-spacing: 0.22em; text-transform: uppercase; font-weight: 400;
+      font-size: clamp(0.78rem, 2.3vw, 1.1rem);
+      letter-spacing: 0.16em; text-transform: uppercase; font-weight: 400;
       background: linear-gradient(135deg, var(--rose) 20%, var(--gold) 80%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
@@ -221,6 +221,21 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .stage-intro p { font-size: 0.85rem; color: var(--deep); opacity: 0.65; line-height: 1.7; font-family: 'Nunito', sans-serif; }
+
+    /* Botón de inicio en intro */
+    .btn-start {
+      margin-top: 28px; display: inline-block;
+      background: linear-gradient(135deg, var(--rose) 0%, var(--gold) 100%);
+      color: white; border: none; border-radius: 50px;
+      padding: 13px 32px; font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.05rem; cursor: pointer;
+      letter-spacing: 0.04em;
+      box-shadow: 0 6px 24px rgba(192,88,120,0.3);
+      transition: transform 0.25s, box-shadow 0.25s;
+      opacity: 0; animation: fadeUp 0.9s ease 5s forwards;
+    }
+    .btn-start:hover { transform: scale(1.05); box-shadow: 0 8px 32px rgba(192,88,120,0.45); }
+    .btn-start:active { transform: scale(0.97); }
 
     /* ── Fase 2: pergaminos en estilo cálido ── */
     .scrolls-grid { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
@@ -259,6 +274,14 @@
     }
     .scroll.opened .scroll-pulse { display: none; }
 
+    /* Estados de revelación secuencial */
+    .scroll.hidden-act { display: none; }
+    .scroll.appearing  { animation: scrollAppear 0.8s cubic-bezier(.22,.68,0,1.2) forwards; }
+    @keyframes scrollAppear {
+      from { opacity: 0; transform: translateY(24px) scale(0.85); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
     .hint-text { font-size: 0.75rem; color: var(--sage); opacity: 0.7; letter-spacing: 0.08em; font-family: 'Nunito', sans-serif; }
 
     /* ── Botón revelar final ── */
@@ -280,6 +303,102 @@
       0%,100% { box-shadow: 0 6px 28px rgba(192,88,120,0.35), 0 0 0 0 rgba(212,146,90,0.4); }
       50%      { box-shadow: 0 6px 28px rgba(192,88,120,0.35), 0 0 0 12px rgba(212,146,90,0); }
     }
+
+    /* ══════════════════════════════════════
+       MINI-JUEGO TRIVIA con bailarina pixel
+    ══════════════════════════════════════ */
+    #phase-trivia {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 20px; max-width: 540px; width: 100%;
+    }
+
+    .dancer-svg {
+      width: 110px; height: auto;
+      animation: dancerSway 2.4s ease-in-out infinite alternate;
+      filter: drop-shadow(0 4px 12px rgba(192,88,120,0.3));
+    }
+    @keyframes dancerSway {
+      0%   { transform: translateY(0) rotate(-3deg); }
+      100% { transform: translateY(-6px) rotate(3deg); }
+    }
+
+    .hearts-row {
+      display: flex; gap: 14px; font-size: 1.7rem; line-height: 1;
+    }
+    .heart-pixel {
+      color: rgba(192,88,120,0.18);
+      transition: color 0.4s;
+      display: inline-block;
+    }
+    .heart-pixel.won {
+      color: var(--rose);
+      animation: heartPop 0.8s cubic-bezier(.22,.68,0,1.6);
+    }
+    @keyframes heartPop {
+      0%   { transform: scale(1) rotate(0); }
+      30%  { transform: scale(1.7) rotate(-8deg); }
+      55%  { transform: scale(0.95) rotate(6deg); }
+      80%  { transform: scale(1.2) rotate(0); }
+      100% { transform: scale(1.15); }
+    }
+
+    .trivia-level {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.7rem; color: var(--gold);
+      letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600;
+    }
+
+    .trivia-question {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: clamp(1.15rem, 3.5vw, 1.45rem);
+      color: var(--deep); line-height: 1.5;
+      max-width: 460px; padding: 0 12px;
+    }
+
+    .trivia-options {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      max-width: 480px;
+    }
+    .trivia-options.shake { animation: shake 0.5s; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-8px); }
+      75%      { transform: translateX(8px); }
+    }
+
+    .trivia-btn {
+      background: rgba(255,246,238,0.85);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(208,120,155,0.3);
+      border-radius: 50px; padding: 11px 22px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem; color: var(--deep); cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 2px 8px rgba(180,80,110,0.06);
+    }
+    .trivia-btn:hover:not(:disabled) {
+      background: white; border-color: var(--rose);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(192,88,120,0.18);
+    }
+    .trivia-btn:disabled { cursor: default; opacity: 0.55; }
+    .trivia-btn.correct {
+      background: linear-gradient(135deg, var(--rose), var(--gold));
+      color: white; border-color: transparent;
+      transform: scale(1.05);
+    }
+    .trivia-btn.wrong {
+      background: rgba(245,200,200,0.85);
+      border-color: #d77; color: #8b3030;
+    }
+
+    .trivia-feedback {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1rem;
+      color: var(--rose); min-height: 1.4em;
+    }
+    .trivia-feedback.success { color: var(--rose); }
+    .trivia-feedback.error   { color: #b85050; }
 
     /* ── Fase 3: gran final ── */
     #finale {
@@ -404,7 +523,7 @@
   <!-- ══ TEATRO ══ -->
   <div id="theater" role="dialog" aria-label="Mini teatro interactivo">
     <div class="curtain-top">
-      <span class="theater-title">El Gran Teatro · MD</span>
+      <span class="theater-title">El Gran Teatro · Martínez Mora</span>
     </div>
     <div class="curtain-left"  id="curtain-l"></div>
     <div class="curtain-right" id="curtain-r"></div>
@@ -415,7 +534,8 @@
       <!-- Fase 1: Intro -->
       <div id="phase-intro" class="stage-intro">
         <h2>Esta noche, el escenario<br/>es todo tuyo…</h2>
-        <p>Tres actos esperan ser descubiertos.<br/>Toca cada pergamino para revelarlos.</p>
+        <p>Tres actos esperan ser descubiertos.<br/>Tómate tu tiempo y disfruta cada uno.</p>
+        <button class="btn-start" onclick="startScrolls()">🎭 Que comience la obra</button>
       </div>
 
       <!-- Fase 2: Pergaminos -->
@@ -433,7 +553,7 @@
           </div>
         </div>
 
-        <div class="scroll" id="s2" onclick="openScroll(2)">
+        <div class="scroll hidden-act" id="s2" onclick="openScroll(2)">
           <div class="scroll-pulse"></div>
           <span class="scroll-icon">🕯️</span>
           <div class="scroll-act">Acto II</div>
@@ -445,7 +565,7 @@
           </div>
         </div>
 
-        <div class="scroll" id="s3" onclick="openScroll(3)">
+        <div class="scroll hidden-act" id="s3" onclick="openScroll(3)">
           <div class="scroll-pulse"></div>
           <span class="scroll-icon">🌟</span>
           <div class="scroll-act">Acto III</div>
@@ -458,7 +578,75 @@
         </div>
 
       </div>
-      <p id="hint-open" class="hint-text hidden-phase">Toca cada pergamino para descubrirlo ✨</p>
+      <p id="hint-open" class="hint-text hidden-phase">Toca el pergamino para descubrir el acto ✨</p>
+
+      <!-- Fase 2.5: Mini-juego trivia con bailarina pixel art -->
+      <div id="phase-trivia" class="hidden-phase">
+
+        <!-- Bailarina pixel art estilo SNES -->
+        <svg class="dancer-svg" viewBox="0 0 64 86" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+          <!-- Bun on top -->
+          <rect x="28" y="0" width="8" height="2" fill="#3D1A2C"/>
+          <rect x="26" y="2" width="12" height="2" fill="#3D1A2C"/>
+          <!-- Hair -->
+          <rect x="22" y="4" width="20" height="2" fill="#3D1A2C"/>
+          <rect x="20" y="6" width="24" height="2" fill="#3D1A2C"/>
+          <rect x="20" y="8" width="2" height="14" fill="#3D1A2C"/>
+          <rect x="42" y="8" width="2" height="14" fill="#3D1A2C"/>
+          <!-- Face -->
+          <rect x="22" y="8" width="20" height="14" fill="#FFE0CC"/>
+          <!-- Eyes -->
+          <rect x="26" y="13" width="2" height="2" fill="#3D1A2C"/>
+          <rect x="36" y="13" width="2" height="2" fill="#3D1A2C"/>
+          <!-- Cheeks -->
+          <rect x="24" y="16" width="2" height="2" fill="#F0B8CC"/>
+          <rect x="38" y="16" width="2" height="2" fill="#F0B8CC"/>
+          <!-- Smile -->
+          <rect x="28" y="17" width="8" height="1" fill="#C05878"/>
+          <rect x="30" y="18" width="4" height="1" fill="#C05878"/>
+          <!-- Neck -->
+          <rect x="28" y="22" width="8" height="2" fill="#FFE0CC"/>
+          <!-- Leotard -->
+          <rect x="22" y="24" width="20" height="14" fill="#C05878"/>
+          <!-- Arms raised in 5th position -->
+          <rect x="14" y="22" width="6" height="3" fill="#FFE0CC"/>
+          <rect x="44" y="22" width="6" height="3" fill="#FFE0CC"/>
+          <rect x="10" y="18" width="4" height="6" fill="#FFE0CC"/>
+          <rect x="50" y="18" width="4" height="6" fill="#FFE0CC"/>
+          <rect x="12" y="14" width="4" height="6" fill="#FFE0CC"/>
+          <rect x="48" y="14" width="4" height="6" fill="#FFE0CC"/>
+          <!-- Tutu -->
+          <rect x="14" y="38" width="36" height="3" fill="#F5C8D5"/>
+          <rect x="10" y="40" width="44" height="4" fill="#F0B8CC"/>
+          <rect x="6"  y="44" width="52" height="4" fill="#F5C8D5"/>
+          <rect x="10" y="48" width="44" height="2" fill="#E89AB2"/>
+          <!-- Sparkles on tutu -->
+          <rect x="14" y="44" width="2" height="2" fill="#FFD700"/>
+          <rect x="32" y="42" width="2" height="2" fill="#FFD700"/>
+          <rect x="48" y="44" width="2" height="2" fill="#FFD700"/>
+          <!-- Legs -->
+          <rect x="26" y="50" width="4" height="22" fill="#FFE0CC"/>
+          <rect x="34" y="50" width="4" height="22" fill="#FFE0CC"/>
+          <!-- Pointe shoes -->
+          <rect x="22" y="72" width="10" height="6" fill="#C05878"/>
+          <rect x="32" y="72" width="10" height="6" fill="#C05878"/>
+          <!-- Ribbons -->
+          <rect x="26" y="68" width="2" height="3" fill="#E89AB2"/>
+          <rect x="34" y="68" width="2" height="3" fill="#E89AB2"/>
+        </svg>
+
+        <div class="hearts-row" id="hearts-row">
+          <span class="heart-pixel" id="h1">♥</span>
+          <span class="heart-pixel" id="h2">♥</span>
+          <span class="heart-pixel" id="h3">♥</span>
+        </div>
+
+        <div class="trivia-level" id="trivia-level">Nivel 1 de 3</div>
+        <div class="trivia-question" id="trivia-question"></div>
+        <div class="trivia-options" id="trivia-options"></div>
+        <div class="trivia-feedback" id="trivia-feedback">&nbsp;</div>
+
+      </div>
       <button id="btn-reveal" class="btn-reveal" onclick="revealFinale()">
         🌹 Abrir el telón final
       </button>
@@ -539,30 +727,130 @@
       const card    = document.getElementById('main-card');
       card.classList.add('hidden');
       theater.classList.add('active');
-      // Esperar que se vea, luego abrir telón
-      setTimeout(() => {
-        document.getElementById('curtain-l').classList.add('open');
-        document.getElementById('curtain-r').classList.add('open');
-      }, 400);
-      // Después de abrir telón: mostrar pergaminos
+      // Telones permanecen CERRADOS — se abren al dar click en "Que comience la obra"
+    }
+
+    function startScrolls(){
+      // Abrir telones dramáticamente
+      document.getElementById('curtain-l').classList.add('open');
+      document.getElementById('curtain-r').classList.add('open');
+
+      // Tras la apertura, mostrar pergaminos
       setTimeout(() => {
         document.getElementById('phase-intro').classList.add('hidden-phase');
         document.getElementById('phase-scrolls').classList.remove('hidden-phase');
         document.getElementById('hint-open').classList.remove('hidden-phase');
-      }, 2200);
+      }, 1500);
     }
 
     function openScroll(n){
       const el = document.getElementById('s'+n);
-      if(el.classList.contains('opened')) return;
+      if(el.classList.contains('opened') || el.classList.contains('hidden-act')) return;
       el.classList.add('opened');
       scrollsOpened++;
-      if(scrollsOpened === 3){
-        // Esperar un momento para que disfrute el último acto
+
+      // Pausa cinematográfica para leer cada acto (5.5s)
+      if(n < 3){
         setTimeout(() => {
-          document.getElementById('hint-open').classList.add('hidden-phase');
-          document.getElementById('btn-reveal').classList.add('show');
-        }, 1800);
+          const next = document.getElementById('s' + (n+1));
+          next.classList.remove('hidden-act');
+          next.classList.add('appearing');
+        }, 5500);
+      }
+
+      if(scrollsOpened === 3){
+        // Tras leer el último acto, transicionar a la trivia
+        setTimeout(() => {
+          startTrivia();
+        }, 6000);
+      }
+    }
+
+    /* ─────────────── Mini-juego Trivia ─────────────── */
+    const TRIVIA_QUESTIONS = [
+      {
+        level: "Nivel 1 de 3",
+        q: "¿Recuerdas el día en que dijimos sí para siempre?",
+        options: ["14 de diciembre, 2013", "14 de noviembre, 2013", "24 de diciembre, 2014"],
+        correct: 0
+      },
+      {
+        level: "Nivel 2 de 3",
+        q: "¿Cuándo llegó al mundo nuestro Matías?",
+        options: ["19 de enero, 2018", "09 de enero, 2017", "09 de enero, 2018"],
+        correct: 2
+      },
+      {
+        level: "Nivel 3 de 3",
+        q: "¿Y el día en que Liliana nos llenó la casa de risas?",
+        options: ["06 de julio, 2019", "16 de julio, 2019", "16 de junio, 2020"],
+        correct: 1
+      }
+    ];
+
+    let currentQuestion = 0;
+
+    function startTrivia(){
+      document.getElementById('phase-scrolls').classList.add('hidden-phase');
+      document.getElementById('hint-open').classList.add('hidden-phase');
+      document.getElementById('phase-trivia').classList.remove('hidden-phase');
+      currentQuestion = 0;
+      loadQuestion(0);
+    }
+
+    function loadQuestion(n){
+      currentQuestion = n;
+      const q = TRIVIA_QUESTIONS[n];
+      document.getElementById('trivia-level').textContent = q.level;
+      document.getElementById('trivia-question').textContent = q.q;
+      document.getElementById('trivia-feedback').innerHTML = '&nbsp;';
+      const optsEl = document.getElementById('trivia-options');
+      optsEl.innerHTML = '';
+      optsEl.classList.remove('shake');
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'trivia-btn';
+        btn.textContent = opt;
+        btn.onclick = () => answer(i, btn);
+        optsEl.appendChild(btn);
+      });
+    }
+
+    function answer(i, btn){
+      const q = TRIVIA_QUESTIONS[currentQuestion];
+      const feedback = document.getElementById('trivia-feedback');
+
+      if(i === q.correct){
+        btn.classList.add('correct');
+        document.querySelectorAll('.trivia-btn').forEach(b => b.disabled = true);
+        feedback.className = 'trivia-feedback success';
+        feedback.textContent = '¡Correcto, mi amor! 💕';
+
+        // Encender corazón
+        const heartId = 'h' + (currentQuestion + 1);
+        document.getElementById(heartId).classList.add('won');
+
+        // Avanzar al siguiente nivel o terminar
+        setTimeout(() => {
+          if(currentQuestion < TRIVIA_QUESTIONS.length - 1){
+            loadQuestion(currentQuestion + 1);
+          } else {
+            // Última respuesta correcta → mostrar botón de telón final
+            feedback.textContent = '¡Eres una experta en nosotros! 👑✨';
+            setTimeout(() => {
+              document.getElementById('btn-reveal').classList.add('show');
+            }, 1500);
+          }
+        }, 2200);
+      } else {
+        btn.classList.add('wrong');
+        feedback.className = 'trivia-feedback error';
+        feedback.textContent = 'Casi, inténtalo otra vez 🌷';
+        document.getElementById('trivia-options').classList.add('shake');
+        setTimeout(() => {
+          btn.classList.remove('wrong');
+          document.getElementById('trivia-options').classList.remove('shake');
+        }, 700);
       }
     }
 
@@ -574,9 +862,10 @@
       document.getElementById('curtain-l').classList.remove('open');
       document.getElementById('curtain-r').classList.remove('open');
 
-      // Ocultar pergaminos durante el cierre
+      // Ocultar trivia y pergaminos durante el cierre
       setTimeout(() => {
         document.getElementById('phase-scrolls').classList.add('hidden-phase');
+        document.getElementById('phase-trivia').classList.add('hidden-phase');
       }, 700);
 
       // Preparar y mostrar finale, abrir telones
@@ -601,11 +890,20 @@
         document.getElementById('curtain-r').classList.remove('open');
         document.getElementById('phase-intro').classList.remove('hidden-phase');
         document.getElementById('phase-scrolls').classList.add('hidden-phase');
+        document.getElementById('phase-trivia').classList.add('hidden-phase');
         document.getElementById('hint-open').classList.add('hidden-phase');
         document.getElementById('btn-reveal').classList.remove('show');
         document.getElementById('btn-reveal').style.display = '';
         document.getElementById('finale').classList.remove('show');
-        ['s1','s2','s3'].forEach(id=>document.getElementById(id).classList.remove('opened'));
+        ['s1','s2','s3'].forEach(id=>{
+          const el = document.getElementById(id);
+          el.classList.remove('opened','appearing');
+        });
+        document.getElementById('s2').classList.add('hidden-act');
+        document.getElementById('s3').classList.add('hidden-act');
+        // Reset corazones
+        ['h1','h2','h3'].forEach(id => document.getElementById(id).classList.remove('won'));
+        currentQuestion = 0;
       }, 400);
     }
 
@@ -632,39 +930,60 @@
     }
 
     /* ─────────────── Música ─────────────── */
-    let musicPlaying = false;
-    let musicIframe  = null;
+    let musicPlaying      = false;
+    let userMutedMusic    = false;
+
+    function startMusicEmbed(){
+      const wrap = document.getElementById('music-player');
+      wrap.innerHTML = '<iframe width="200" height="200" src="https://www.youtube.com/embed/BlC1T6DzaOw?autoplay=1&loop=1&playlist=BlC1T6DzaOw&controls=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+      document.getElementById('music-btn').classList.add('playing');
+      document.getElementById('music-icon').textContent = '🎶';
+      musicPlaying = true;
+    }
+
+    function stopMusicEmbed(){
+      document.getElementById('music-player').innerHTML = '';
+      document.getElementById('music-btn').classList.remove('playing');
+      document.getElementById('music-icon').textContent = '🎵';
+      musicPlaying = false;
+    }
 
     function toggleMusic(){
-      const btn  = document.getElementById('music-btn');
-      const icon = document.getElementById('music-icon');
-      const tip  = document.getElementById('music-tip');
-      const wrap = document.getElementById('music-player');
-
-      if(!musicPlaying){
-        // Crear iframe con autoplay
-        wrap.innerHTML = '<iframe width="200" height="200" src="https://www.youtube.com/embed/BlC1T6DzaOw?autoplay=1&loop=1&playlist=BlC1T6DzaOw&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-        musicIframe = wrap.querySelector('iframe');
-        btn.classList.add('playing');
-        icon.textContent = '🎶';
-        tip.classList.add('show');
-        setTimeout(()=>tip.classList.remove('show'), 4000);
-        musicPlaying = true;
+      const tip = document.getElementById('music-tip');
+      if(musicPlaying){
+        stopMusicEmbed();
+        userMutedMusic = true;
       } else {
-        wrap.innerHTML = '';
-        btn.classList.remove('playing');
-        icon.textContent = '🎵';
-        musicPlaying = false;
+        startMusicEmbed();
+        userMutedMusic = false;
+        tip.textContent = '"Si no te hubiera conocido" 🎶';
+        tip.classList.add('show');
+        setTimeout(()=>tip.classList.remove('show'), 4500);
       }
     }
 
-    // Mostrar tooltip sutilmente al cargar
+    // Intentar autoplay desde el inicio
+    startMusicEmbed();
+
+    // Fallback: si el navegador bloqueó el autoplay,
+    // el primer click en cualquier parte lo activa (a menos que ella lo haya silenciado a propósito)
+    function ensureMusicOnGesture(){
+      if(!musicPlaying && !userMutedMusic){
+        startMusicEmbed();
+      }
+    }
+    document.addEventListener('click', ensureMusicOnGesture, { once: true, capture: true });
+    document.addEventListener('touchstart', ensureMusicOnGesture, { once: true, capture: true });
+
+    // Tooltip discreto invitando a la música
     setTimeout(() => {
-      const tip = document.getElementById('music-tip');
-      tip.textContent = '🎶 Toca para escuchar';
-      tip.classList.add('show');
-      setTimeout(() => tip.classList.remove('show'), 3500);
-    }, 4000);
+      if(!userMutedMusic){
+        const tip = document.getElementById('music-tip');
+        tip.textContent = '🎶 "Si no te hubiera conocido"';
+        tip.classList.add('show');
+        setTimeout(() => tip.classList.remove('show'), 4500);
+      }
+    }, 2500);
   </script>
 </body>
 </html>
